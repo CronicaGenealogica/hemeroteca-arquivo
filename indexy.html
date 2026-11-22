@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#8b3f2b"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet"><title>Acervo do CGN</title>
+<style>
+:root{--paper:#fff;--panel:#fff;--ink:#222;--muted:#666;--line:#d8d8d8;--accent:#333}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:Georgia,'Times New Roman',serif;font-size:16px}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.top{background:#fff;color:#555;padding:9px max(18px,calc((100% - 1050px)/2));border-bottom:1px solid var(--line);font:11px Arial,sans-serif;display:flex;justify-content:space-between}
+.head{max-width:1050px;margin:auto;padding:25px 18px 18px;text-align:left;border-bottom:1px solid var(--line)}
+.k{font:10px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#666}
+h1{font-size:clamp(27px,4vw,38px);font-weight:normal;margin:8px 0;color:#222}.sub{font-size:14px;color:#666;font-style:normal}
+nav{max-width:1050px;margin:auto;display:flex;gap:18px;flex-wrap:wrap;padding:10px 18px;border-bottom:1px solid var(--line)}
+nav button,.tab{border:0;background:none;padding:7px 0;font:12px Arial,sans-serif;color:#444;border-bottom:1px solid transparent}nav button.active,.tab.active{border-color:#222;color:#111}
+main{max-width:1050px;margin:auto;padding:24px 18px 50px}.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.bar h2{font-weight:normal;font-size:23px;margin:0}
+.btn{background:#333;border:1px solid #333;color:#fff;padding:9px 13px;font:12px Arial,sans-serif}.btn.alt{background:#fff;color:#333}.btn.red{background:#fff;color:#8b2525;border-color:#aaa}
+.note{background:#f7f7f7;border-left:2px solid #999;padding:10px 12px;font:12px/1.5 Arial,sans-serif;color:#555;margin-bottom:16px}
+.search{display:flex;gap:8px;margin-bottom:13px}.search input{flex:1;min-width:0;padding:11px;border:1px solid #bbb;background:#fff}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.filters select{padding:8px;border:1px solid #bbb;background:#fff;font:12px Arial,sans-serif}
+.view-switch{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:0 0 12px}.view-switch span{font:11px Arial,sans-serif;color:#666;margin-right:4px}.view-switch button{background:#fff;border:1px solid #bbb;color:#333;padding:7px 10px;font:11px Arial,sans-serif}.view-switch button.active{background:#333;color:#fff;border-color:#333}.cards{display:block;border-top:1px solid var(--line)}.card{background:#fff;border:0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:115px minmax(0,1fr);gap:16px;padding:14px 0}.cards.mode-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;border-top:0}.cards.mode-grid .card{display:flex;flex-direction:column;gap:9px;border:1px solid var(--line);padding:10px;min-width:0}.cards.mode-grid .cover{height:210px;width:100%}.cards.mode-grid .body{padding:0}.cards.mode-grid .body h3{font-size:17px}.cards.mode-grid .desc{margin:5px 0}.cards.mode-grid .meta{line-height:1.5}.cards.mode-names{display:block;border-top:1px solid var(--line)}.cards.mode-names .card{display:block;padding:9px 2px}.cards.mode-names .cover,.cards.mode-names .body .type,.cards.mode-names .body .meta,.cards.mode-names .body .desc,.cards.mode-names .body .tags{display:none}.cards.mode-names .body{display:block}.cards.mode-names .body h3{display:inline;font:15px Georgia,serif;margin:0}.cards.mode-names .body button{display:none}.cards.mode-names .body h3:before{content:"— ";color:#888}
+.cover{height:135px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;background:#f1f1f1;position:relative;color:#444;border:1px solid #ddd}.cover:after{display:none}.cover.book,.cover.map,.cover.photo{background:#f1f1f1;color:#444}.cover span{z-index:1;font-size:15px}.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.preview{display:block;max-width:220px;max-height:260px;object-fit:contain;border:1px solid var(--line);margin-top:8px;background:#f5f5f5}.detail-cover{display:block;max-width:100%;max-height:420px;object-fit:contain;margin:12px auto;border:1px solid var(--line);background:#f5f5f5}.download-link{display:inline-block;margin:12px 0 4px;padding:10px 13px;background:#333;color:#fff;text-decoration:none;font:12px Arial,sans-serif}.cover small{position:absolute;top:8px;left:8px;font:9px Arial,sans-serif;text-transform:uppercase;letter-spacing:.08em}
+.body{padding:0;display:flex;flex-direction:column;align-items:flex-start}.type{font:10px Arial,sans-serif;text-transform:uppercase;letter-spacing:.1em;color:#666}.body h3{font-size:19px;font-weight:normal;margin:5px 0}.meta{font:11px/1.6 Arial,sans-serif;color:#666}.desc{font-size:13px;line-height:1.5;color:#444;margin:8px 0}.tags{font:10px Arial,sans-serif;color:#666;margin:5px 0 10px}
+.panel{background:#fff;border:1px solid var(--line);padding:16px;margin:14px 0}.tabs{display:flex;flex-wrap:wrap;gap:15px;border-bottom:1px solid var(--line);margin-bottom:15px}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font:10px Arial,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:#555}.field input,.field select,.field textarea{padding:9px;border:1px solid #bbb;background:#fff;font:13px Arial,sans-serif;width:100%}.field textarea{min-height:80px}.muted{font:11px/1.5 Arial,sans-serif;color:#666}.list{display:grid;gap:7px}.entry{background:#fff;border-bottom:1px solid var(--line);padding:11px 0;display:flex;justify-content:space-between;align-items:center;gap:10px}.entry strong{font-weight:normal}.entry small{display:block;font:11px Arial,sans-serif;color:#666;margin-top:4px}.actions{display:flex;gap:6px;flex-wrap:wrap}.actions .btn{padding:6px 9px;font-size:10px}.empty{grid-column:1/-1;text-align:center;padding:25px;border:1px dashed var(--line);color:#666}
+footer{background:#fff;color:#555;text-align:center;padding:20px;border-top:1px solid var(--line)}footer p{font:10px Arial,sans-serif;color:#666}.modal{display:none;position:fixed;inset:0;background:#0008;z-index:5;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}.dialog{background:#fff;padding:22px;max-width:620px;width:100%;max-height:90vh;overflow:auto;position:relative}.close{position:absolute;right:10px;top:6px;border:0;background:none;font-size:25px}.dialog dl{display:grid;grid-template-columns:110px 1fr;gap:8px;font-size:13px}.dialog dt{font:10px Arial,sans-serif;color:#666;text-transform:uppercase}.dialog dd{margin:0;overflow-wrap:anywhere}
+@media(max-width:760px){.cards.mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){main{padding:18px 13px 40px}.top span:last-child{display:none}.card{grid-template-columns:88px minmax(0,1fr);gap:11px}.cover{height:115px}.cards.mode-grid{grid-template-columns:1fr}.cards.mode-grid .cover{height:190px}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.bar{align-items:flex-start;flex-direction:column}.search{flex-direction:column}.search button{padding:11px}.entry{align-items:flex-start;flex-direction:column}}
+
+/* v0.6 — acabamento clássico, suave e ligeiramente arquivístico */
+:root{--paper:#edf1e9;--panel:#faf9f3;--ink:#30352f;--muted:#687064;--line:#c5cdbf;--accent:#596b57}
+body{background:#e9eee7;color:#30352f;font-family:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;line-height:1.55}
+.top{background:#dfe7dc;color:#596456;border-bottom:1px solid #bfcaba;font-family:Georgia,serif;letter-spacing:.035em}
+.head{background:#f6f6ef;border:1px solid #c8d0c3;border-top:0;border-bottom:1px solid #c8d0c3;padding-top:27px;padding-bottom:21px}
+.k{font-family:Georgia,serif;letter-spacing:.1em;color:#697664}
+h1{font-family:"Palatino Linotype",Palatino,Georgia,serif;color:#303b30;letter-spacing:.015em}
+.sub{font-family:Georgia,serif;color:#687064}
+nav{background:#f2f3ec;border:1px solid #c8d0c3;border-top:0;border-bottom:1px solid #c8d0c3;gap:7px;padding-top:12px;padding-bottom:12px}
+nav button,.tab{border:1px solid #c4cdbf;background:#e9eee6;padding:8px 12px;color:#465343;font:13px Georgia,serif;transition:none}
+nav button.active,.tab.active{background:#dce5d8;border:1px solid #82927e;color:#293729;box-shadow:inset 0 0 0 1px #f7f8f3}
+main{background:#f6f6ef;border-left:1px solid #c8d0c3;border-right:1px solid #c8d0c3;min-height:65vh}
+.bar h2{color:#374235}
+.btn,.download-link{background:#596b57;border:1px solid #435440;color:#fff;font-family:Georgia,serif;letter-spacing:.01em}
+.btn.alt{background:#f5f6ef;color:#435440;border:1px solid #9eac98}
+.btn.red{background:#f8f3ef;color:#874b43;border-color:#c8aaa3}
+.note{background:#e9eee5;border:1px solid #c7d1c1;border-left:3px solid #879781;color:#566151;font-family:Georgia,serif}
+.search input,.filters select,.field input,.field select,.field textarea{background:#fffef9;border:1px solid #bfc9b9;color:#30352f;font-family:Georgia,serif}
+.view-switch button{background:#f8f8f1;border:1px solid #bdc8b8;color:#4c5b49;font-family:Georgia,serif}
+.view-switch button.active{background:#dce5d8;color:#2f3c2d;border-color:#82927e}
+.cards{border-top:1px solid #bfc9b9}
+.card{background:#f8f8f2;border:1px solid #d0d7ca;padding:13px;margin:9px 0;gap:15px}
+.cards.mode-grid .card{background:#f8f8f2;border:1px solid #bdc8b8;padding:11px}
+.cards.mode-names .card{background:transparent;border:0;border-bottom:1px solid #cbd3c5;margin:0;padding:10px 5px}
+.cover{background:#e5e9df;border:1px solid #c4cdbf;color:#53604f;font-family:Georgia,serif}
+.cover.book,.cover.map,.cover.photo{background:#e5e9df;color:#53604f}
+.preview,.detail-cover{border:1px solid #bdc8b8;background:#f8f8f2}
+.type,.meta,.tags,.muted{color:#687363}
+.body h3{color:#344332}
+.desc{color:#4e574b}
+.panel{background:#fbfaf4;border:1px solid #bdc8b8;box-shadow:inset 0 0 0 3px #f1f2e9}
+.tabs{border-bottom:1px solid #bdc8b8;gap:7px;padding-bottom:9px}
+.field label{color:#596653;font-family:Georgia,serif}
+.entry{background:#faf9f3;border:1px solid #d0d7ca;padding:11px 12px}
+.entry strong{color:#344332}
+.empty{background:#f7f7f0;border:1px dashed #b9c5b4;color:#687363}
+footer{background:#e2e9df;color:#566252;border-top:1px solid #bdc8b8}
+footer p{color:#66715f;font-family:Georgia,serif}
+.dialog{background:#f8f7f0;border:1px solid #aebba8;box-shadow:0 5px 24px #25332133;font-family:"Palatino Linotype",Palatino,Georgia,serif}
+.dialog dt{color:#687363}
+@media(max-width:600px){nav{gap:6px}nav button,.tab{padding:7px 9px;font-size:12px}main{border-left:0;border-right:0}}
+
+/* Identidade visual CGN: outono, arquivo e referência pernambucana */
+:root{--paper:#f4ead8;--panel:#fff8eb;--ink:#332b25;--muted:#756657;--line:#cdbb9e;--accent:#6c4935}
+body{background:#dfd0b8;color:#332b25}
+.top{background:#344f72;color:#fff4df;border-bottom:3px solid #d6a64d}
+.head{background:#f7eddb;border-color:#b99b73;position:relative;padding-bottom:25px}
+h1{margin:7px 0 10px}
+.brand-link{font-family:"Pirata One","Old English Text MT","Blackletter",Georgia,serif;font-size:clamp(36px,5vw,54px);font-weight:normal;color:#344f72;text-decoration:none;letter-spacing:.01em}
+.brand-link:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+.pernambuco-ribbon{height:9px;margin-top:17px;border:1px solid #b7a487;display:flex;overflow:hidden;max-width:100%}
+.pernambuco-ribbon i{display:block;flex:1}
+.pernambuco-ribbon i:nth-child(1){background:#254d78}.pernambuco-ribbon i:nth-child(2){background:#fff9e9}.pernambuco-ribbon i:nth-child(3){background:#e4b74d}.pernambuco-ribbon i:nth-child(4){background:#a53e32}.pernambuco-ribbon i:nth-child(5){background:#356347}
+nav{background:#eadcc5;border-color:#c5ad8b}
+nav button,.tab{background:#f5e8d2;border-color:#c5ad8b;color:#59432f}
+nav button.active,.tab.active{background:#d8e0d0;border-color:#58704e;color:#293c2b;box-shadow:inset 0 0 0 1px #fff8eb}
+main{background:#f7eddd;border-color:#c5ad8b}
+.bar h2,.body h3{color:#563b2b}
+.btn,.download-link{background:#765039;border-color:#563b2b;color:#fff8eb}
+.btn:hover,.download-link:hover{background:#344f72}
+.btn.alt{background:#f8efdf;color:#4e4838;border-color:#b99b73}
+.btn.red{background:#f7e9df;color:#963f32;border-color:#c68e7e}
+.note{background:#e7e8d9;border-color:#b7b991;border-left-color:#667b4d;color:#4d5940}
+.search input,.filters select,.field input,.field select,.field textarea{background:#fffaf0;border-color:#c6b18f;color:#332b25}
+.view-switch button{background:#fff7e9;border-color:#c6b18f;color:#59432f}
+.view-switch button.active{background:#d8e0d0;color:#2f432d;border-color:#718366}
+.cards{border-color:#c5ad8b}
+.card,.cards.mode-grid .card{background:#fff8ec;border-color:#d1bea0}
+.cover{background:#e7d9c2;border-color:#c7ad88;color:#57412f}
+.panel{background:#fff8eb;border-color:#bda27c;box-shadow:inset 0 0 0 3px #f1e4ce}
+.entry{background:#fff8eb;border-color:#d2bea0}
+.entry strong{color:#493626}
+footer{background:#344f72;color:#fff3df;border-top:4px solid #d6a64d}
+footer p{color:#f1dfc3}
+.dialog{background:#fff7e9;border-color:#b99b73}
+.member-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:10px;border:1px solid #cdbb9e;background:#fffaf0;max-height:220px;overflow:auto}
+.member-option{display:flex;align-items:flex-start;gap:7px;font:12px Georgia,serif;color:#44372b}
+.member-option input{width:auto;margin-top:2px}
+.entry .record-meta{font:13px/1.5 Georgia,serif;color:#584431;margin-top:5px}
+.entry .record-meta b{font-weight:normal;color:#344f72}
+@media(max-width:600px){.member-picker{grid-template-columns:1fr}.brand-link{font-size:39px}}
+
+/* Ajuste visual solicitado: cores mais firmes e título gótico mais legível */
+:root{--paper:#eee2cc;--panel:#fffaf0;--ink:#29251f;--muted:#62584b;--line:#b69a72;--accent:#315b3b}
+body{background:#c9b18d;color:#29251f}
+.top{background:#254d35;color:#fff8e9;border-bottom:4px solid #c58b24}
+.head{background:#f2e5cd;border-color:#8e704c}
+.brand-link{font-family:"Pirata One","Old English Text MT",Georgia,serif;font-size:clamp(38px,5vw,56px);font-weight:400;letter-spacing:.015em;color:#254d35;text-shadow:0 1px 0 #fff8e9}
+nav{background:#d7c19c;border-color:#a8895f}
+nav button,.tab{background:#ead8b8;border-color:#a8895f;color:#382f24}
+nav button.active,.tab.active{background:#315b3b;border-color:#254d35;color:#fff8e9;box-shadow:none}
+main{background:#f2e5cd;border-color:#a8895f}
+.bar h2,.body h3{color:#493321}
+.btn,.download-link{background:#315b3b;border-color:#254d35;color:#fffaf0}
+.btn:hover,.download-link:hover{background:#254d35}
+.btn.alt{background:#ead8b8;color:#382f24;border-color:#9c7a4e}
+.btn.red{background:#f1ddd0;color:#8f3028;border-color:#a64a3d}
+.note{background:#e3dfc4;border-color:#9b9b61;border-left-color:#315b3b;color:#3f4c31}
+.search input,.filters select,.field input,.field select,.field textarea{background:#fffaf0;border-color:#a8895f;color:#29251f}
+.view-switch button{background:#f8eedc;border-color:#a8895f;color:#493b2a}
+.view-switch button.active{background:#315b3b;color:#fffaf0;border-color:#254d35}
+.cards{border-color:#a8895f}
+.card,.cards.mode-grid .card{background:#fff8e9;border-color:#b69a72}
+.cover{background:#d8c29e;border-color:#9c7a4e;color:#493321}
+.panel{background:#fff8e9;border-color:#a8895f;box-shadow:inset 0 0 0 3px #ead8b8}
+.entry{background:#fff8e9;border-color:#b69a72}
+.entry strong{color:#493321}
+footer{background:#254d35;color:#fff8e9;border-top:4px solid #c58b24}
+footer p{color:#f2dfb9}
+.dialog{background:#fff8e9;border-color:#9c7a4e}
+.pernambuco-ribbon{border-color:#8e704c}
+@media(max-width:600px){.brand-link{font-size:42px}}
+
+</style></head><body>
+<div class="top"><span>Arquivo histórico digital</span><span>Catálogo documental</span></div>
+<header class="head"><div class="k">Memória documental e histórica</div><h1><a class="brand-link" href="https://patrickdesales.substack.com/" target="_blank" rel="noopener noreferrer">Acervo do CGN</a></h1><div class="sub">Periódicos, livros, mapas, fotografias e documentos</div><div class="pernambuco-ribbon" aria-label="Elemento decorativo inspirado na bandeira de Pernambuco"><i></i><i></i><i></i><i></i><i></i></div></header>
+<nav><button class="active" data-page="public">Consulta pública</button><button data-page="admin">Administração</button></nav>
+<main>
+<section id="public">
+<div class="bar"><h2>Catálogo do arquivo</h2><span class="muted" id="count"></span></div>
+<div class="note">Catálogo público. São apresentados apenas os documentos publicados pelo administrador.</div>
+<form class="search" id="search"><input id="q" placeholder="Pesquisar títulos, datas, localidades, autores ou assuntos…"><button class="btn">Pesquisar</button></form>
+<div class="filters"><select id="typeFilter"><option value="">Todos os tipos</option><option>Jornal</option><option>Revista</option><option>Livro</option><option>Mapa</option><option>Fotografia</option><option>Documento</option></select><select id="yearFilter"><option value="">Todos os anos</option></select><select id="placeFilter"><option value="">Todos os locais</option></select><select id="sort"><option value="new">Data mais recente</option><option value="old">Data mais antiga</option><option value="title">Título A–Z</option></select></div>
+<div class="view-switch" role="group" aria-label="Modo de apresentação"><span>Exibir:</span><button type="button" data-layout="grid">Grelha</button><button type="button" data-layout="detail" class="active">Lista detalhada</button><button type="button" data-layout="names">Apenas nomes</button></div><div class="cards mode-detail" id="cards"></div>
+</section>
+<section id="admin" hidden>
+<div class="bar"><h2>Painel de administração</h2><span class="muted" id="adminStatus">A verificar sessão…</span></div>
+<div class="note">Os registos são guardados na base de dados do Acervo do CGN. As alterações ao ficheiro no GitHub não apagam o catálogo.</div><div style="margin-bottom:14px"><button class="btn alt" id="loginBtn" type="button">Iniciar sessão</button> <button class="btn alt" id="logoutBtn" type="button" hidden>Terminar sessão</button></div>
+<div class="tabs"><button class="tab active" data-tab="docs">Documentos e edições</button><button class="tab" data-tab="periods">Títulos de periódicos</button><button class="tab" data-tab="groups">Coleções</button><button class="tab" data-tab="backup">Cópia de segurança</button></div>
+<div class="view active" id="docs">
+<div class="bar"><h2 style="font-size:19px">Registos documentais</h2><button class="btn" id="addDoc">+ Novo registo</button></div><div class="list" id="docList"></div>
+<div class="panel" id="docPanel" hidden><h3 id="docHeading" style="font-weight:normal;margin-top:0">Novo registo</h3><form id="docForm"><input id="docId" type="hidden"><div class="grid">
+<div class="field"><label>Tipo documental *</label><select id="dType" required><option>Jornal</option><option>Revista</option><option>Livro</option><option>Mapa</option><option>Fotografia</option><option>Documento</option></select></div>
+<div class="field"><label>Título *</label><input id="dTitle" required></div>
+<div class="field"><label>Periódico associado</label><select id="dPeriod"><option value="">Não aplicável</option></select></div>
+<div class="field"><label>Número / edição</label><input id="dIssue" placeholder="Ex.: N.º 42"></div>
+<div class="field"><label>Data de publicação</label><input id="dDate" type="date"></div>
+<div class="field"><label>Ano aproximado</label><input id="dYear" type="number" min="1000" max="2100"></div>
+<div class="field"><label>Local de publicação / origem</label><input id="dPlace"></div>
+<div class="field"><label>Autor / entidade</label><input id="dAuthor"></div>
+<div class="field full"><label>Descrição / notas</label><textarea id="dDesc"></textarea></div><div class="field full"><label>Notas internas</label><textarea id="dNotes"></textarea></div><div class="field"><label>Publicação</label><select id="dPublished"><option value="false">Rascunho</option><option value="true">Publicado</option></select></div>
+<div class="field"><label>Coleções (selecciona várias com Ctrl)</label><select id="dCollections" multiple size="4"></select></div>
+<div class="field"><label>Palavras-chave (separadas por vírgulas)</label><input id="dTags"></div>
+<div class="field full"><label>Nome do ficheiro (identificação automática)</label><input id="dFileName" type="text" placeholder="Ex.: DiariodePernambuco_1902_00040.pdf"><div class="muted">Podes escrever o nome ou preencher a Fonte original; o sistema tentará identificá-lo automaticamente.</div></div><div class="field full"><label>Fonte original (URL)</label><input id="dSource" type="url" placeholder="https://…"></div>
+<div class="field full"><label>Imagem da primeira página / imagem de apresentação</label><input id="dPreview" type="file" accept="image/jpeg,image/png,image/webp"><div class="muted">Podes carregar uma imagem manualmente ou tentar obter a primeira página a partir da Fonte original. A extracção automática depende de o servidor permitir o acesso ao ficheiro.</div><img id="previewThumb" class="preview" alt="Pré-visualização da imagem" hidden><div id="imageStatus" class="muted"></div></div>
+<div class="field full"><label>Ligação pública do MEGA (download)</label><input id="dMega" type="url" placeholder="https://mega.nz/file/…"><div class="muted">Usa uma ligação de partilha pública. O visitante será encaminhado para o MEGA sem precisar de criar conta; os limites de transferência do serviço continuam a aplicar-se.</div></div>
+</div><div style="display:flex;gap:8px;margin-top:15px;flex-wrap:wrap"><button class="btn">Guardar registo</button><button type="button" class="btn alt" id="cancelDoc">Cancelar</button></div></form></div>
+</div>
+<div class="view" id="periods"><div class="bar"><h2 style="font-size:19px">Títulos de periódicos</h2><button class="btn" id="addPeriod">+ Novo periódico</button></div><p class="muted">Regista o jornal ou revista uma única vez. Depois associa cada edição ao título correspondente.</p><div class="list" id="periodList"></div><div class="panel" id="periodPanel" hidden><form id="periodForm"><div class="grid"><div class="field"><label>Título do periódico *</label><input id="pName" required></div><div class="field"><label>Tipo de periódico</label><select id="pType"><option>Jornal</option><option>Revista</option></select></div><div class="field"><label>Local de publicação</label><input id="pCity"></div><div class="field"><label>Ano inicial</label><input id="pStart" type="number"></div><div class="field"><label>Ano final</label><input id="pEnd" type="number"></div><div class="field full"><label>Notas</label><textarea id="pNotes"></textarea></div></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn">Guardar periódico</button><button class="btn alt" type="button" id="cancelPeriod">Cancelar</button></div></form></div></div>
+<div class="view" id="groups"><div class="bar"><h2 style="font-size:19px">Coleções temáticas</h2><button class="btn" id="addGroup">+ Nova coleção</button></div><div class="list" id="groupList"></div><div class="panel" id="groupPanel" hidden><form id="groupForm"><input id="gId" type="hidden"><div class="grid"><div class="field"><label>Nome da coleção *</label><input id="gName" required></div><div class="field"><label>Descrição</label><input id="gDesc"></div></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn">Guardar coleção</button><button class="btn alt" type="button" id="cancelGroup">Cancelar</button></div></form></div><div class="panel" id="membershipPanel" hidden><h3 id="membershipHeading" style="font-weight:normal;margin-top:0">Documentos da coleção</h3><p class="muted">Marca os documentos que pertencem a esta coleção. Um documento pode pertencer a várias coleções; dentro da mesma coleção, cada documento aparece apenas uma vez.</p><div id="membershipList" class="membership-list"></div><div style="display:flex;gap:8px;margin-top:14px"><button type="button" class="btn" id="saveMembership">Guardar associações</button><button type="button" class="btn alt" id="cancelMembership">Cancelar</button></div></div></div>
+<div class="view" id="backup"><h2 style="font-size:19px;font-weight:normal">Cópia de segurança</h2><p class="muted">Exporta os registos, periódicos, coleções, palavras-chave e associações. As capas são incluídas quando o navegador permite descarregá-las. Os PDFs alojados no MEGA continuam no MEGA; conserva também os ficheiros originais.</p><button class="btn" id="export">Exportar catálogo JSON</button> <label class="btn alt" for="import" style="display:inline-block;cursor:pointer;padding:11px">Importar catálogo JSON</label><input id="import" type="file" accept=".json" hidden></div>
+</section></main><footer><strong>Acervo do CGN</strong><p>Catálogo digital · Consulta pública · Gestão privada</p></footer>
+<div class="modal" id="modal"><div class="dialog"><button class="close" id="close">×</button><div class="k" id="mType"></div><h2 id="mTitle" style="font-weight:normal"></h2><div id="mContent"></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* Inserir aqui o Project URL e a Publishable key do Supabase. */
+const SUPABASE_URL = "https://afxmvlitymwiorbkbcog.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_URInsAYENVJ5UzY18Epc5g_5UsER8LZ";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = v => {try{let u=new URL(v);return ["http:","https:"].includes(u.protocol)?u.href:""}catch{return ""}};
+let db=null, session=null, admin=false, docs=[], periods=[], groups=[], imageFile=null, imageUrl="";
+const ready=SUPABASE_URL.startsWith("https://")&&!SUPABASE_URL.includes("COLOCA_AQUI")&&SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_");
+function message(s){alert(s)}
+async function init(){
+ if(!ready){$("#cards").innerHTML='<div class="empty">Falta configurar o Project URL e a Publishable key no início do código.</div>';return}
+ db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+ const {data:{session:s}}=await db.auth.getSession();session=s;await verifyAdmin();await loadPublic();
+ db.auth.onAuthStateChange((_e,s)=>{session=s;setTimeout(async()=>{await verifyAdmin();await loadPublic();if(admin&&!$("#admin").hidden)await loadAdmin();},0)});
+}
+async function verifyAdmin(){
+ admin=false;
+ if(session){const r=await db.rpc("is_admin");admin=!r.error&&r.data===true}
+ $("#loginBtn").hidden=admin;$("#logoutBtn").hidden=!admin;
+ const st=$("#adminStatus");if(st)st.textContent=admin?"Sessão de administrador activa":"Sessão não iniciada";
+}
+async function login(){
+ if(!db)return message("Configura primeiro o Supabase.");
+ const email=prompt("Email da conta de administrador:");if(!email)return;
+ const password=prompt("Palavra-passe:");if(!password)return;
+ const r=await db.auth.signInWithPassword({email,password});if(r.error)return message(r.error.message);
+ const s=await db.auth.getSession();session=s.data.session;await verifyAdmin();
+ if(!admin){await db.auth.signOut();return message("A conta não tem permissões de administrador. Confirma a função admin e inicia sessão novamente.")}
+ showPage("admin");
+}
+async function loadPublic(){
+ if(!db)return;
+ const r=await db.from("documents").select("id,document_type,title,periodical_id,issue_number,document_date,approximate_year,place,author,description,original_source_url,cover_image_url,mega_url,published,created_at,updated_at").eq("published",true);
+ if(r.error){$("#cards").innerHTML='<div class="empty">Erro ao carregar o catálogo. Verifica a API e as políticas RLS.</div>';console.error(r.error);return}
+ docs=r.data||[];await relations();render();
+}
+async function relations(){
+ if(!docs.length)return;
+ const ids=docs.map(x=>x.id);
+ const [cl,kl,ps,cs,ks]=await Promise.all([
+  db.from("document_collections").select("*").in("document_id",ids),
+  db.from("document_keywords").select("*").in("document_id",ids),
+  db.from("periodicals").select("id,title"),
+  db.from("collections").select("id,name"),
+  db.from("keywords").select("id,name")
+ ]);
+ const cm=new Map((cs.data||[]).map(x=>[x.id,x.name])),km=new Map((ks.data||[]).map(x=>[x.id,x.name])),pm=new Map((ps.data||[]).map(x=>[x.id,x.title]));
+ docs=docs.map(d=>({...d,period:pm.get(d.periodical_id)||"",collection_ids:(cl.data||[]).filter(x=>x.document_id===d.id).map(x=>x.collection_id),collections:(cl.data||[]).filter(x=>x.document_id===d.id).map(x=>cm.get(x.collection_id)).filter(Boolean),tags:(kl.data||[]).filter(x=>x.document_id===d.id).map(x=>km.get(x.keyword_id)).filter(Boolean),type:d.document_type,date:d.document_date,year:d.approximate_year,issue:d.issue_number,desc:d.description,source:d.original_source_url,mega:d.mega_url,imageData:d.cover_image_url}));
+}
+function render(){
+ let q=$("#q").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase(),a=[...docs];
+ if(q)a=a.filter(x=>JSON.stringify(x).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().includes(q));
+ if($("#typeFilter").value)a=a.filter(x=>x.type===$("#typeFilter").value);
+ if($("#yearFilter").value)a=a.filter(x=>String(x.year||"")===$("#yearFilter").value);
+ if($("#placeFilter").value)a=a.filter(x=>x.place===$("#placeFilter").value);
+ if($("#sort").value==="new")a.sort((x,y)=>(y.date||"").localeCompare(x.date||""));
+ if($("#sort").value==="old")a.sort((x,y)=>(x.date||"").localeCompare(y.date||""));
+ if($("#sort").value==="title")a.sort((x,y)=>x.title.localeCompare(y.title,"pt"));
+ $("#count").textContent=a.length+" registos";
+ $("#cards").innerHTML=a.length?a.map(x=>`<article class="card"><div class="cover">${x.imageData?`<img src="${esc(x.imageData)}" alt="">`:`<span>${esc(x.period||x.title)}</span>`}<small>${esc(x.type)}</small></div><div class="body"><div class="type">${esc(x.type)}</div><h3>${esc(x.title)}</h3><div class="meta">${esc(x.date||x.year||"Data não indicada")} · ${esc(x.place||"Local não indicado")}<br>${esc(x.issue||"")}</div><p class="desc">${esc(x.desc||"Sem descrição.")}</p><div class="tags">${(x.tags||[]).map(esc).join(" · ")} ${(x.collections||[]).map(esc).join(" · ")}</div><button class="btn" data-detail="${x.id}">Ver ficha</button></div></article>`).join(""):'<div class="empty">Não foram encontrados registos.</div>';
+ $("#cards").querySelectorAll("[data-detail]").forEach(b=>b.onclick=()=>detail(b.dataset.detail));
+ const years=[...new Set(docs.map(x=>x.year).filter(Boolean))].sort((a,b)=>b-a),places=[...new Set(docs.map(x=>x.place).filter(Boolean))].sort();
+ const y=$("#yearFilter").value,p=$("#placeFilter").value;
+ $("#yearFilter").innerHTML='<option value="">Todos os anos</option>'+years.map(x=>`<option>${x}</option>`).join("");$("#yearFilter").value=y;
+ $("#placeFilter").innerHTML='<option value="">Todos os locais</option>'+places.map(x=>`<option>${esc(x)}</option>`).join("");$("#placeFilter").value=p;
+}
+function detail(id){
+ const x=docs.find(d=>d.id===id);if(!x)return;
+ $("#mType").textContent=x.type;$("#mTitle").textContent=x.title;
+ const f=[["Data",x.date||x.year],["Local",x.place],["Autor",x.author],["Periódico",x.period],["Edição",x.issue],["Coleções",(x.collections||[]).join(", ")],["Palavras-chave",(x.tags||[]).join(", ")],["Fonte original",safeUrl(x.source)?`<a href="${esc(safeUrl(x.source))}" target="_blank" rel="noopener">Abrir fonte original</a>`:"Não indicada"]];
+ $("#mContent").innerHTML=(x.imageData?`<img class="detail-cover" src="${esc(x.imageData)}" alt="">`:"")+`<p>${esc(x.desc||"Sem descrição.")}</p><dl>${f.map(([a,b])=>`<dt>${a}</dt><dd>${b||"—"}</dd>`).join("")}</dl>`+(safeUrl(x.mega)?`<a class="download-link" href="${esc(safeUrl(x.mega))}" target="_blank" rel="noopener">Descarregar documento no MEGA ↗</a>`:"<p class='muted'>Sem ligação de download.</p>");
+ $("#modal").classList.add("open");
+}
+function showPage(p){
+ if(p==="admin"&&!admin){$("#public").hidden=false;$("#admin").hidden=true;login();return}
+ $("#public").hidden=p!=="public";$("#admin").hidden=p!=="admin";
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
+ if(p==="admin")loadAdmin();else render();
+}
+document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+$("#search").onsubmit=e=>{e.preventDefault();render()};
+["typeFilter","yearFilter","placeFilter","sort"].forEach(id=>$("#"+id).onchange=render);
+let layout=localStorage.getItem("ha2_public_layout")||"detail";
+function setLayout(m){layout=m;localStorage.setItem("ha2_public_layout",m);document.querySelectorAll("[data-layout]").forEach(b=>b.classList.toggle("active",b.dataset.layout===m));$("#cards").className="cards mode-"+(m==="detail"?"detail":m==="grid"?"grid":"names");render()}
+document.querySelectorAll("[data-layout]").forEach(b=>b.onclick=()=>setLayout(b.dataset.layout));
+$("#close").onclick=()=>$("#modal").classList.remove("open");$("#modal").onclick=e=>{if(e.target===$("#modal"))$("#modal").classList.remove("open")};
+$("#loginBtn").onclick=login;
+$("#logoutBtn").onclick=async()=>{await db.auth.signOut();session=null;admin=false;showPage("public");await loadPublic()};
+async function loadAdmin(){
+ if(!admin)return;
+ const [d,p,c]=await Promise.all([db.from("documents").select("*").order("created_at",{ascending:false}),db.from("periodicals").select("*").order("title"),db.from("collections").select("*").order("name")]);
+ if(d.error||p.error||c.error)return message((d.error||p.error||c.error).message);
+ docs=d.data||[];periods=p.data||[];groups=c.data||[];await relations();
+ $("#docList").innerHTML=docs.map(x=>{const date=x.document_date||x.approximate_year||"Data não indicada";const issue=x.issue_number?"Edição: "+x.issue_number:"Edição não indicada";return `<div class="entry"><div><div class="doc-entry-title">${esc(x.title)}</div><div class="doc-entry-meta"><span class="doc-meta-chip">${esc(x.document_type)}</span><span class="doc-meta-chip prominent">${esc(date)}</span><span class="doc-meta-chip prominent">${esc(issue)}</span><span class="doc-meta-chip">${x.published?"Publicado":"Rascunho"}</span></div></div><div class="actions"><button class="btn alt" data-edit="${x.id}">Editar</button><button class="btn red" data-del="${x.id}">Apagar</button></div></div>`}).join("")||'<div class="empty">Sem registos.</div>';
+ $("#periodList").innerHTML=periods.map(x=>`<div class="entry"><strong>${esc(x.title)}</strong><button class="btn red" data-pdel="${x.id}">Apagar</button></div>`).join("");
+ $("#groupList").innerHTML=groups.map(x=>`<div class="entry"><div><strong>${esc(x.name)}</strong><small>${esc(x.description||"Coleção temática")}</small></div><div class="actions"><button class="btn alt" data-gedit="${x.id}">Editar</button><button class="btn alt" data-gmanage="${x.id}">Gerir documentos</button><button class="btn red" data-gdel="${x.id}">Apagar</button></div></div>`).join("")||'<div class="empty">Ainda não existem coleções.</div>';
+ $("#dPeriod").innerHTML='<option value="">Não aplicável</option>'+periods.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join("");
+ $("#dCollections").innerHTML=groups.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
+ $("#docList").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editDoc(b.dataset.edit));
+ $("#docList").querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(confirm("Apagar este registo?")){let r=await db.from("documents").delete().eq("id",b.dataset.del);if(r.error)message(r.error.message);else loadAdmin()}});
+ $("#periodList").querySelectorAll("[data-pdel]").forEach(b=>b.onclick=async()=>{if(confirm("Apagar este periódico?")){let r=await db.from("periodicals").delete().eq("id",b.dataset.pdel);if(r.error)message(r.error.message);else loadAdmin()}});
+ $("#groupList").querySelectorAll("[data-gdel]").forEach(b=>b.onclick=async()=>{if(confirm("Apagar esta coleção? As associações aos documentos também serão eliminadas.")){let r=await db.from("collections").delete().eq("id",b.dataset.gdel);if(r.error)message(r.error.message);else loadAdmin()}});
+ $("#groupList").querySelectorAll("[data-gedit]").forEach(b=>b.onclick=()=>editGroup(b.dataset.gedit));
+ $("#groupList").querySelectorAll("[data-gmanage]").forEach(b=>b.onclick=()=>manageCollectionItems(b.dataset.gmanage));
+}
+function resetDoc(){ $("#docForm").reset();$("#docId").value="";$("#docPanel").hidden=true;imageFile=null;imageUrl="";$("#previewThumb").hidden=true;$("#imageStatus").textContent="";["dTitle","dAuthor"].forEach(id=>delete $("#"+id).dataset.autofilled); }
+$("#addDoc").onclick=()=>{resetDoc();$("#docPanel").hidden=false;loadAdmin()};
+$("#cancelDoc").onclick=resetDoc;
+function editDoc(id){
+ const x=docs.find(d=>d.id===id);if(!x)return;
+ $("#docId").value=x.id;$("#docHeading").textContent="Editar registo";$("#dType").value=x.document_type;$("#dTitle").value=x.title;$("#dPeriod").value=x.periodical_id||"";$("#dIssue").value=x.issue_number||"";$("#dDate").value=x.document_date||"";$("#dYear").value=x.approximate_year||"";$("#dPlace").value=x.place||"";$("#dAuthor").value=x.author||"";$("#dDesc").value=x.description||"";$("#dNotes").value=x.notes||"";$("#dSource").value=x.original_source_url||"";$("#dFileName").value=filenameFromUrl(x.original_source_url||"");$("#dMega").value=x.mega_url||"";$("#dPublished").value=String(x.published);imageUrl=x.cover_image_url||"";$("#previewThumb").src=imageUrl;$("#previewThumb").hidden=!imageUrl;
+ [...$("#dCollections").options].forEach(o=>o.selected=(x.collection_ids||[]).includes(o.value));
+ $("#dTags").value=(x.tags||[]).join(", ");$("#docPanel").hidden=false;
+}
+function normalizeName(v){return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"")}
+function titleFromCode(v){return String(v||"").replace(/([a-z])(de|da|do|dos|das)([A-Z])/g,"$1 $2 $3").replace(/([a-z])([A-Z])/g,"$1 $2").replace(/[_-]+/g," ").replace(/\s+/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase())}
+function filenameFromUrl(v){try{const u=new URL(v);const part=decodeURIComponent(u.pathname.split("/").pop()||"");return part||""}catch{return ""}}
+function parseArchiveFilename(filename){
+ const base=String(filename||"").split(/[\\/]/).pop().split(/[?#]/)[0].replace(/\.[^.]+$/,"");
+ let rawName="",year="",issue="",canonicalTitle="";
+ // Formatos específicos de periódicos com abreviaturas históricas.
+ let m=base.match(/^AP(\d{4})_(\d+)$/i);
+ if(m){rawName="AP";year=m[1];issue=m[2];canonicalTitle="A Província";}
+ else if((m=base.match(/^JR(\d{4})_(\d+)$/i))){rawName="JR";year=m[1];issue=m[2];canonicalTitle="Jornal do Recife";}
+ else if((m=base.match(/^JornalPequeno[_-](\d{4})[_-](\d+)$/i))){rawName="JornalPequeno";year=m[1];issue=m[2];canonicalTitle="Jornal Pequeno";}
+ else {
+  m=base.match(/^(.*?)[_-](\d{4})[_-](\d+)$/);
+  if(!m)return false;
+  rawName=m[1];year=m[2];issue=m[3];
+ }
+ const norm=normalizeName(canonicalTitle||rawName);
+ const aliases={
+  aprovincia:["aprovincia","provincia"],
+  jornaldorecife:["jornaldorecife"],
+  jornalpequeno:["jornalpequeno"]
+ };
+ const accepted=aliases[norm]||[norm];
+ const matched=periods.find(p=>accepted.includes(normalizeName(p.title)));
+ if(matched){
+  canonicalTitle=matched.title;
+  $("#dPeriod").value=matched.id;
+  $("#dTitle").value=matched.title;
+  $("#dAuthor").value=matched.title;
+  $("#dType").value=matched.periodical_type||"Jornal";
+ } else {
+  const guessed=canonicalTitle||titleFromCode(rawName);
+  if(!$("#dTitle").value||$("#dTitle").dataset.autofilled==="true")$("#dTitle").value=guessed;
+  if(!$("#dAuthor").value||$("#dAuthor").dataset.autofilled==="true")$("#dAuthor").value=guessed;
+  $("#dPeriod").value="";
+  if(canonicalTitle)$("#imageStatus").textContent="Formato reconhecido para "+canonicalTitle+", mas esse periódico ainda não está registado em Títulos de periódicos. Regista-o e volta a identificar o ficheiro.";
+ }
+ $("#dTitle").dataset.autofilled="true";$("#dAuthor").dataset.autofilled="true";
+ $("#dYear").value=year;$("#dIssue").value=issue;
+ return true;
+}
+function syncPeriodFields(){
+ if($("#dType").value!=="Jornal")return;
+ const p=periods.find(x=>x.id===$("#dPeriod").value);if(!p)return;
+ $("#dTitle").value=p.title;$("#dAuthor").value=p.title;
+ $("#dTitle").dataset.autofilled="true";$("#dAuthor").dataset.autofilled="true";
+}
+$("#dPeriod").addEventListener("change",syncPeriodFields);
+["dTitle","dAuthor"].forEach(id=>$("#"+id).addEventListener("input",()=>{$("#"+id).dataset.autofilled="false"}));
+$("#dType").addEventListener("change",()=>{if($("#dType").value==="Jornal")syncPeriodFields()});
+$("#dDate").addEventListener("change",()=>{const v=$("#dDate").value;if(v)$("#dYear").value=v.slice(0,4)});
+$("#dFileName").addEventListener("change",()=>{if(!parseArchiveFilename($("#dFileName").value))$("#imageStatus").textContent="Não reconheci o padrão. Exemplo aceite: NomeDoJornal_1902_00040."});
+$("#dSource").addEventListener("change",async()=>{
+ const url=safeUrl($("#dSource").value);if(!url)return;
+ imageFile=null;imageUrl="";
+ const fn=filenameFromUrl(url);if(fn){$("#dFileName").value=fn;parseArchiveFilename(fn)}
+ const lower=url.split(/[?#]/)[0].toLowerCase();
+ if(/\.(png|jpe?g|webp|gif)$/i.test(lower)){
+   imageFile=null;imageUrl=url;$("#previewThumb").src=url;$("#previewThumb").hidden=false;$("#imageStatus").textContent="Imagem de apresentação obtida directamente da fonte original.";return;
+ }
+ if(/\.pdf$/i.test(lower)){
+   $("#imageStatus").textContent="A tentar extrair a primeira página do PDF…";
+   try{
+     if(!window.pdfjsLib)throw Error("Biblioteca PDF indisponível");
+     pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+     const task=pdfjsLib.getDocument({url,withCredentials:false});const pdf=await task.promise;const page=await pdf.getPage(1);const viewport=page.getViewport({scale:1.35});
+     const canvas=document.createElement("canvas");canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+     await page.render({canvasContext:canvas.getContext("2d"),viewport}).promise;
+     const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",0.86));if(!blob)throw Error("Não foi possível gerar a imagem");
+     imageFile=new File([blob],"capa-extraida.jpg",{type:"image/jpeg"});imageUrl="";$("#previewThumb").src=URL.createObjectURL(blob);$("#previewThumb").hidden=false;$("#imageStatus").textContent="Primeira página extraída. Será guardada no Storage quando gravares o registo.";
+   }catch(err){$("#imageStatus").textContent="Não foi possível extrair a capa automaticamente (o servidor pode bloquear o acesso). Carrega uma imagem manualmente.";console.warn("PDF preview:",err)}
+ }
+});
+$("#dPreview").onchange=()=>{imageFile=$("#dPreview").files[0]||null;if(imageFile){imageUrl="";$("#previewThumb").src=URL.createObjectURL(imageFile);$("#previewThumb").hidden=false;$("#imageStatus").textContent="Imagem carregada manualmente; será enviada para o Storage ao guardar."}};
+async function uploadImage(file){
+ const ext=(file.name.split(".").pop()||"jpg").replace(/[^a-z0-9]/gi,"")||"jpg",path=crypto.randomUUID()+"."+ext;
+ const r=await db.storage.from("covers").upload(path,file,{contentType:file.type||"image/jpeg"});
+ if(r.error)throw r.error;return db.storage.from("covers").getPublicUrl(path).data.publicUrl;
+}
+$("#docForm").onsubmit=async e=>{
+ e.preventDefault();if(!admin)return message("Sessão de administrador necessária.");
+ try{
+  if(imageFile)imageUrl=await uploadImage(imageFile);
+  const date=$("#dDate").value,source=safeUrl($("#dSource").value),mega=safeUrl($("#dMega").value);
+  if($("#dSource").value&&!source)throw Error("URL da fonte original inválido.");if($("#dMega").value&&!mega)throw Error("URL MEGA inválido.");
+  const payload={document_type:$("#dType").value,title:$("#dTitle").value.trim(),periodical_id:$("#dPeriod").value||null,issue_number:$("#dIssue").value||null,document_date:date||null,approximate_year:Number($("#dYear").value)||(date?+date.slice(0,4):null),place:$("#dPlace").value||null,author:$("#dAuthor").value||null,description:$("#dDesc").value||null,notes:$("#dNotes").value||null,original_source_url:source||null,cover_image_url:imageUrl||null,mega_url:mega||null,published:$("#dPublished").value==="true"};
+  let id=$("#docId").value,r=id?await db.from("documents").update(payload).eq("id",id).select("id").single():await db.from("documents").insert(payload).select("id").single();if(r.error)throw r.error;id=r.data.id;
+  let del=await db.from("document_collections").delete().eq("document_id",id);if(del.error)throw del.error;
+  const selected=[...$("#dCollections").selectedOptions].map(o=>o.value);if(selected.length){let ins=await db.from("document_collections").insert(selected.map(collection_id=>({document_id:id,collection_id})));if(ins.error)throw ins.error;}
+  let kd=await db.from("document_keywords").delete().eq("document_id",id);if(kd.error)throw kd.error;
+  for(const name of [...new Set($("#dTags").value.split(",").map(x=>x.trim()).filter(Boolean))]){let k=await db.from("keywords").upsert({name},{onConflict:"name"}).select("id").single();if(k.error)throw k.error;let l=await db.from("document_keywords").insert({document_id:id,keyword_id:k.data.id});if(l.error)throw l.error;}
+  resetDoc();await loadAdmin();await loadPublic();message("Registo guardado na base de dados.");
+ }catch(err){message(err.message||String(err))}
+};
+$("#addPeriod").onclick=()=>{$("#periodForm").reset();$("#periodPanel").hidden=false};$("#cancelPeriod").onclick=()=>$("#periodPanel").hidden=true;
+$("#periodForm").onsubmit=async e=>{e.preventDefault();let r=await db.from("periodicals").insert({title:$("#pName").value.trim(),periodical_type:$("#pType")?.value||"Jornal",place:$("#pCity").value||null,description:$("#pNotes").value||null});if(r.error)message(r.error.message);else{$("#periodPanel").hidden=true;loadAdmin()}};
+function editGroup(id){const g=groups.find(x=>x.id===id);if(!g)return;$("#gId").value=g.id;$("#gName").value=g.name;$("#gDesc").value=g.description||"";$("#groupPanel").hidden=false;$("#membershipPanel").hidden=true;}
+$("#addGroup").onclick=()=>{$("#groupForm").reset();$("#gId").value="";$("#groupPanel").hidden=false;$("#membershipPanel").hidden=true};$("#cancelGroup").onclick=()=>{$("#groupPanel").hidden=true;$("#gId").value=""};
+$("#groupForm").onsubmit=async e=>{e.preventDefault();const id=$("#gId").value;const payload={name:$("#gName").value.trim(),description:$("#gDesc").value||null};let r=id?await db.from("collections").update(payload).eq("id",id):await db.from("collections").insert(payload);if(r.error)message(r.error.message);else{$("#groupPanel").hidden=true;$("#gId").value="";await loadAdmin();message(id?"Coleção actualizada.":"Coleção criada.")}};
+let activeCollectionId=null;
+async function manageCollectionItems(id){
+ const g=groups.find(x=>x.id===id);if(!g)return;
+ activeCollectionId=id;$("#groupPanel").hidden=true;$("#membershipPanel").hidden=false;$("#membershipHeading").textContent="Documentos da coleção: "+g.name;$("#membershipList").innerHTML='<p class="muted">A carregar documentos…</p>';
+ const r=await db.from("document_collections").select("document_id").eq("collection_id",id);if(r.error){message(r.error.message);return}
+ const selected=new Set((r.data||[]).map(x=>x.document_id));
+ $("#membershipList").innerHTML=docs.length?docs.map(d=>`<label class="membership-item"><input type="checkbox" value="${d.id}" ${selected.has(d.id)?"checked":""}><span><strong>${esc(d.title)}</strong><br><small>${esc(d.document_type)} · ${esc(d.document_date||d.approximate_year||"Sem data")} · ${d.published?"Publicado":"Rascunho"}</small></span></label>`).join(""):'<p class="muted">Ainda não existem documentos registados.</p>';
+}
+$("#cancelMembership").onclick=()=>{$("#membershipPanel").hidden=true;activeCollectionId=null};
+$("#saveMembership").onclick=async()=>{
+ if(!activeCollectionId)return;
+ const wanted=new Set([...$("#membershipList").querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value));
+ const currentResult=await db.from("document_collections").select("document_id").eq("collection_id",activeCollectionId);if(currentResult.error)return message(currentResult.error.message);
+ const current=new Set((currentResult.data||[]).map(x=>x.document_id));
+ const remove=[...current].filter(id=>!wanted.has(id));
+ const add=[...wanted].filter(id=>!current.has(id));
+ if(remove.length){const del=await db.from("document_collections").delete().eq("collection_id",activeCollectionId).in("document_id",remove);if(del.error)return message(del.error.message)}
+ if(add.length){const ins=await db.from("document_collections").upsert(add.map(document_id=>({document_id,collection_id:activeCollectionId})),{onConflict:"document_id,collection_id",ignoreDuplicates:true});if(ins.error)return message(ins.error.message)}
+ $("#membershipPanel").hidden=true;activeCollectionId=null;await loadAdmin();await loadPublic();message("Documentos da coleção actualizados.");
+};
+async function blobToDataUrl(blob){return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(blob)})}
+async function exportBackup(){
+ if(!admin)return message("Inicia sessão como administrador para criar uma cópia de segurança.");
+ const names=["documents","periodicals","collections","keywords","document_collections","document_keywords"];
+ const backup={format:"acervo-cgn-backup",version:1,created_at:new Date().toISOString(),tables:{}};
+ for(const name of names){const r=await db.from(name).select("*");if(r.error)return message("Não foi possível exportar "+name+": "+r.error.message);backup.tables[name]=r.data||[];}
+ let skipped=0;
+ for(const d of backup.tables.documents){
+  if(!d.cover_image_url)continue;
+  try{const response=await fetch(d.cover_image_url);if(!response.ok)throw Error("download falhou");const blob=await response.blob();d.cover_image_backup=await blobToDataUrl(blob);d.cover_image_mime=blob.type||"image/jpeg";}
+  catch{skipped++;}
+ }
+ const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+ const a=document.createElement("a"),url=URL.createObjectURL(blob);a.href=url;a.download="acervo-cgn-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+ message("Cópia de segurança exportada. Registos: "+backup.tables.documents.length+"; periódicos: "+backup.tables.periodicals.length+"; coleções: "+backup.tables.collections.length+(skipped?". Capas não incluídas por restrições de acesso: "+skipped:". Capas incluídas quando disponíveis."));
+}
+async function restoreBackup(file){
+ if(!admin)return message("Inicia sessão como administrador para restaurar uma cópia.");
+ let backup;try{backup=JSON.parse(await file.text())}catch{return message("O ficheiro não contém JSON válido.")}
+ if(backup.format!=="acervo-cgn-backup"||!backup.tables)return message("Formato de cópia de segurança não reconhecido.");
+ const t=backup.tables;const required=["periodicals","collections","keywords","documents","document_collections","document_keywords"];
+ if(required.some(k=>!Array.isArray(t[k])))return message("A cópia está incompleta ou não corresponde ao formato esperado.");
+ if(!confirm("Restaurar esta cópia? Os registos com o mesmo ID serão actualizados e os restantes serão acrescentados. Os registos que não constam da cópia NÃO serão apagados."))return;
+ try{
+  for(const name of ["periodicals","collections","keywords"]){if(t[name].length){const r=await db.from(name).upsert(t[name]);if(r.error)throw r.error;}}
+  const docsToRestore=[];
+  for(const original of t.documents){const d={...original};delete d.cover_image_backup;delete d.cover_image_mime;
+   if(original.cover_image_backup){try{const response=await fetch(original.cover_image_backup);const blob=await response.blob();const ext=(original.cover_image_mime||blob.type||"image/jpeg").split("/").pop().replace(/[^a-z0-9]/gi,"")||"jpg";const path=crypto.randomUUID()+"."+ext;const up=await db.storage.from("covers").upload(path,blob,{contentType:original.cover_image_mime||blob.type||"image/jpeg",upsert:true});if(!up.error)d.cover_image_url=db.storage.from("covers").getPublicUrl(path).data.publicUrl;}catch{}}
+   docsToRestore.push(d);
+  }
+  if(docsToRestore.length){const r=await db.from("documents").upsert(docsToRestore);if(r.error)throw r.error;}
+  for(const name of ["document_collections","document_keywords"]){if(t[name].length){const r=await db.from(name).upsert(t[name]);if(r.error)throw r.error;}}
+  await loadAdmin();await loadPublic();message("Restauro concluído. Os registos da cópia foram acrescentados/actualizados sem apagar os restantes.");
+ }catch(err){message("O restauro foi interrompido: "+(err.message||String(err))+". Verifica as tabelas e as políticas RLS antes de repetir.");}
+}
+$("#export").onclick=exportBackup;
+$("#import").onchange=async e=>{const f=e.target.files?.[0];if(f)await restoreBackup(f);e.target.value=""};
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab))});
+setLayout(layout);init();
+</script></body></html>
